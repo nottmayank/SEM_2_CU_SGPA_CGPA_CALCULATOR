@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CU SGPA & CGPA Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      color: rgb(137, 0, 0);
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 8px;
+      margin: 5px;
+      width: 80px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: rgb(137, 0, 0);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: brown;
+    }
+    .output {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CU SGPA & CGPA Calculator</h1>
+  <div class="card">
+    <h2>CGPA Calculator</h2>
+    <div id="cgpaInputs">
+
+    </div>
+    <button onclick="addSemester()">Add Semester</button>
+    <button onclick="calculateCGPA()">Calculate CGPA</button>
+    <div class="output" id="cgpaOutput"></div>
+  </div>
+
+  <script>
+    function addSemester() {
+      const container = document.getElementById("cgpaInputs");
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <input type="number" placeholder="SGPA" class="semSgpa">
+        <input type="number" placeholder="Credits" class="semCredit">
+      `;
+      container.appendChild(div);
+    }
+
+    function calculateCGPA() {
+      const sgpas = document.querySelectorAll(".semSgpa");
+      const credits = document.querySelectorAll(".semCredit");
+      let totalWeightedSgpa = 0, totalCredits = 0;
+
+      for (let i = 0; i < sgpas.length; i++) {
+        const s = parseFloat(sgpas[i].value);
+        const c = parseFloat(credits[i].value);
+        if (!isNaN(s) && !isNaN(c)) {
+          totalWeightedSgpa += s * c;
+          totalCredits += c;
+        }
+      }
+
+      const cgpa = (totalCredits === 0) ? 0 : (totalWeightedSgpa / totalCredits).toFixed(2);
+      document.getElementById("cgpaOutput").textContent = `CGPA: ${cgpa}`;
+    }
+
+   
+    addSemester();
+  </script>
+</body>
+</html>
